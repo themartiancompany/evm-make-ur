@@ -7,8 +7,8 @@ _offline="false"
 _git="false"
 _pkg=evm-make
 pkgname="${_pkg}"
-pkgver="0.0.0.0.0.0.0.0.0.1"
-_commit="b435baafb7a4dd801fdfeea096ca0afacf61156d"
+pkgver="0.0.0.0.0.0.0.0.0.1.1"
+_commit="23350cf5fba34d03a65c44f8710904361ced9565"
 pkgrel=1
 _pkgdesc=(
   "Make (build and install) tool for applications"
@@ -57,7 +57,7 @@ elif [[ "${_git}" == false ]]; then
     _sum="d4f4179c6e4ce1702c5fe6af132669e8ec4d0378428f69518f2926b969663a91"
   elif [[ "${_tag_name}" == "commit" ]]; then
     _src="${_tarname}.zip::${_url}/archive/${_commit}.zip"
-    _sum='0c4226981161a851236102ac58c3b66c8193b0f5a29290c822847d6696805980'
+    _sum='25dbf4e6afcbebe2258c6f3cfabc96c9ca6d15a0ea151e365dd232bc3922a1f0'
   fi
 fi
 source=(
