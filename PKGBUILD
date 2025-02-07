@@ -1,14 +1,34 @@
 # SPDX-License-Identifier: AGPL-3.0
+
+#    ----------------------------------------------------------------------
+#    Copyright © 2024, 2025  Pellegrino Prevete
 #
+#    All rights reserved
+#    ----------------------------------------------------------------------
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 # Maintainer: Truocolo <truocolo@aol.com>
+# Maintainer: Truocolo <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
 # Maintainer: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
 
 _offline="false"
 _git="false"
 _pkg=evm-make
 pkgname="${_pkg}"
-pkgver="0.0.0.0.0.0.0.0.0.1.1.1"
-_commit="b96ae8d56455f926d8849c6cd1ebe40a2d99c568"
+pkgver="0.0.0.0.0.0.0.0.0.1.1.1.1"
+_commit="9898c0a3dfae6006d0399d3f794530651b7486b9"
 pkgrel=1
 _pkgdesc=(
   "Make (build and install) tool for applications"
@@ -57,7 +77,7 @@ elif [[ "${_git}" == false ]]; then
     _sum="d4f4179c6e4ce1702c5fe6af132669e8ec4d0378428f69518f2926b969663a91"
   elif [[ "${_tag_name}" == "commit" ]]; then
     _src="${_tarname}.zip::${_url}/archive/${_commit}.zip"
-    _sum='9a34b34ec44cb1790218ea0d27a1d8f40cdf5a05ca1ef1f977efb6a186bb58ff'
+    _sum='792ca6ce143cfa6c3219aa14b6ecf871399c6c78201ddd0e060a239b82237ce0'
   fi
 fi
 source=(
