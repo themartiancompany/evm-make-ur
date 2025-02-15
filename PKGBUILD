@@ -99,8 +99,7 @@ if [[ "${_evmfs}" == "true" ]]; then
   sha256sums+=(
     "${_archive_sig_sum}"
   )
-
-if [[ "${_git}" == true ]]; then
+elif [[ "${_git}" == true ]]; then
   makedepends+=(
     "git"
   )
