@@ -21,8 +21,24 @@
 
 # Maintainer: Truocolo <truocolo@aol.com>
 # Maintainer: Truocolo <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
-# Maintainer: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
+# Maintainer: Pellegrino Prevete (dvorak) <pellegrinoprevete@gmail.com>
+# Maintainer: Pellegrino Prevete (dvorak) <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
 
+_os="$( \
+  uname \
+    -o)"
+_evmfs_available="$( \
+  command \
+    -v \
+    "evmfs" || \
+    true)"
+if [[ ! -v "_evmfs" ]]; then
+  if [[ "${_evmfs_available}" != "" ]]; then
+    _evmfs="true"
+  elif [[ "${_evmfs_available}" == "" ]]; then
+    _evmfs="false"
+  fi
+fi
 _offline="false"
 _git="false"
 _pkg=evm-make
@@ -36,7 +52,7 @@ _pkgdesc=(
 )
 pkgdesc="${_pkgdesc[*]}"
 arch=(
-  any
+  'any'
 )
 _http="https://github.com"
 _ns="themartiancompany"
@@ -49,11 +65,8 @@ depends=(
   "solidity-compiler"
 )
 optdepends=()
-_os="$( \
-  uname \
-    -o)"
 makedepends=(
-  make
+  'make'
 )
 checkdepends=(
   "shellcheck"
@@ -65,6 +78,28 @@ _tarname="${pkgname}-${_tag}"
 if [[ "${_offline}" == "true" ]]; then
   _url="file://${HOME}/${pkgname}"
 fi
+_evmfs_network="100"
+_evmfs_address="0x69470b18f8b8b5f92b48f6199dcb147b4be96571"
+_evmfs_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
+_archive_sum='792ca6ce143cfa6c3219aa14b6ecf871399c6c78201ddd0e060a239b82237ce0'
+_evmfs_archive_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sum}"
+_evmfs_archive_src="${_tarname}.zip::${_evmfs_archive_uri}"
+_archive_sig_sum="8e04aeadd39a639d73559cc10caa9382665af4528845ff4bea834ab9ab2842a3"
+_archive_sig_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sig_sum}"
+_archive_sig_src="${_tarname}.zip.sig::${_archive_sig_uri}"
+if [[ "${_evmfs}" == "true" ]]; then
+  makedepends+=(
+    "evmfs"
+  )
+  _src="${_evmfs_archive_src}"
+  _sum="${_archive_sum}"
+  source+=(
+    "${_archive_sig_src}"
+  )
+  sha256sums+=(
+    "${_archive_sig_sum}"
+  )
+
 if [[ "${_git}" == true ]]; then
   makedepends+=(
     "git"
@@ -77,7 +112,7 @@ elif [[ "${_git}" == false ]]; then
     _sum="d4f4179c6e4ce1702c5fe6af132669e8ec4d0378428f69518f2926b969663a91"
   elif [[ "${_tag_name}" == "commit" ]]; then
     _src="${_tarname}.zip::${_url}/archive/${_commit}.zip"
-    _sum='792ca6ce143cfa6c3219aa14b6ecf871399c6c78201ddd0e060a239b82237ce0'
+    _sum="${_archive_sum}"
   fi
 fi
 source=(
@@ -93,6 +128,8 @@ validpgpkeys=(
   'DD6732B02E6C88E9E27E2E0D5FC6652B9D9A6C01'
   # Truocolo <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
   'F690CBC17BD1F53557290AF51FC17D540D0ADEED'
+  # Pellegrino Prevete (dvorak) <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
+  '12D8E3D7888F741E89F86EE0FEC8567A644F1D16'
 )
 
 check() {
