@@ -41,10 +41,11 @@ if [[ ! -v "_evmfs" ]]; then
 fi
 _offline="false"
 _git="false"
+_py="python"
 _pkg=evm-make
 pkgname="${_pkg}"
-pkgver="0.0.0.0.0.0.0.0.0.1.1.1.1"
-_commit="9898c0a3dfae6006d0399d3f794530651b7486b9"
+pkgver="0.0.0.0.0.0.0.0.1"
+_commit="de75806bc56bc147539786ee0e412cb44b304e04"
 pkgrel=1
 _pkgdesc=(
   "Make (build and install) tool for applications"
@@ -67,6 +68,7 @@ depends=(
 optdepends=()
 makedepends=(
   'make'
+  "${_py}-docutils"
 )
 checkdepends=(
   "shellcheck"
@@ -81,10 +83,10 @@ fi
 _evmfs_network="100"
 _evmfs_address="0x69470b18f8b8b5f92b48f6199dcb147b4be96571"
 _evmfs_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
-_archive_sum='792ca6ce143cfa6c3219aa14b6ecf871399c6c78201ddd0e060a239b82237ce0'
+_archive_sum='045a8b400910526f8c0cbd5c1de1217477a3def37648c48f63fae934aee2b646'
 _evmfs_archive_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sum}"
 _evmfs_archive_src="${_tarname}.zip::${_evmfs_archive_uri}"
-_archive_sig_sum="8e04aeadd39a639d73559cc10caa9382665af4528845ff4bea834ab9ab2842a3"
+_archive_sig_sum="0e717163f52d3b3550075ce50a6000eae9e7a9e7c1874564427086f5afbf16cf"
 _archive_sig_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sig_sum}"
 _archive_sig_src="${_tarname}.zip.sig::${_archive_sig_uri}"
 if [[ "${_evmfs}" == "true" ]]; then
