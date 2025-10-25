@@ -42,13 +42,35 @@ if [[ ! -v "_evmfs" ]]; then
     _evmfs="false"
   fi
 fi
-_offline="false"
-_git="false"
+if [[ ! -v "_offline" ]]; then
+  _offline="false"
+fi
+if [[ ! -v "_git" ]]; then
+  _git="false"
+fi
+if [[ ! -v "_git_http" ]]; then
+  _git_http="github"
+fi
+if [[ ! -v "_docs" ]]; then
+  _docs="true"
+fi
+_archive_format="tar.gz"
+if [[ "${_git_http}" == "github" ]]; then
+  _archive_format="zip"
+fi
 _py="python"
 _pkg=evm-make
-pkgname="${_pkg}"
-pkgver="0.0.0.0.0.0.0.0.1"
-_commit="de75806bc56bc147539786ee0e412cb44b304e04"
+pkgbase="${_pkg}"
+pkgname=(
+  "${_pkg}"
+)
+if [[ "${_docs}" == "true" ]]; then
+  pkgname+=(
+    "${pkgbase}-docs"
+  )
+fi
+pkgver="0.0.0.0.0.0.0.0.1.1"
+_commit="b49aed148af4c9c936f76c577811a14b8b9e0a63"
 pkgrel=1
 _pkgdesc=(
   "Make (build and install) tool for applications"
@@ -58,7 +80,7 @@ pkgdesc="${_pkgdesc[*]}"
 arch=(
   'any'
 )
-_http="https://github.com"
+_http="https://${_git_http}.com"
 _ns="themartiancompany"
 url="${_http}/${_ns}/${pkgname}"
 license=(
@@ -68,11 +90,21 @@ depends=(
   "libcrash-bash"
   "solidity-compiler"
 )
-optdepends=()
+_evm_make_docs_optdepends=(
+  "${_pkg}-docs:"
+    "EVM Make documentation and manuals."
+)
+optdepends=(
+  "${_evm_make_docs_optdepends[*]}"
+)
 makedepends=(
   'make'
-  "${_py}-docutils"
 )
+if [[ "${_docs}" == "true" ]]; then
+  makedepends+=(
+    "${_py}-docutils"
+  )
+fi
 checkdepends=(
   "shellcheck"
 )
@@ -80,29 +112,31 @@ _url="${url}"
 _tag="${_commit}"
 _tag_name="commit"
 _tarname="${pkgname}-${_tag}"
+_tarfile="${_tarname}.${_archive_format}"
 if [[ "${_offline}" == "true" ]]; then
   _url="file://${HOME}/${pkgname}"
 fi
+_sum="b9d50afd625da675e5a493ddc2a728e415a1a2c109a90c1636817e690cbd8b6b"
+_sig_sum="4acbd44ad7a4faa8c30e8ae678217c71ebaa499a2de4d24c183d7d902774cf0b"
+# Dvorak
+_evmfs_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
 _evmfs_network="100"
 _evmfs_address="0x69470b18f8b8b5f92b48f6199dcb147b4be96571"
-_evmfs_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
-_archive_sum='045a8b400910526f8c0cbd5c1de1217477a3def37648c48f63fae934aee2b646'
-_evmfs_archive_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sum}"
-_evmfs_archive_src="${_tarname}.zip::${_evmfs_archive_uri}"
-_archive_sig_sum="0e717163f52d3b3550075ce50a6000eae9e7a9e7c1874564427086f5afbf16cf"
-_archive_sig_uri="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}/${_archive_sig_sum}"
-_archive_sig_src="${_tarname}.zip.sig::${_archive_sig_uri}"
+_evmfs_dir="evmfs://${_evmfs_network}/${_evmfs_address}/${_evmfs_ns}"
+_evmfs_uri="${_evmfs_dir}/${_sum}"
+_evmfs_src="${_tarfile}::${_evmfs_uri}"
+_sig_uri="${_evmfs_dir}/${_sig_sum}"
+_sig_src="${_tarfile}.sig::${_sig_uri}"
 if [[ "${_evmfs}" == "true" ]]; then
   makedepends+=(
     "evmfs"
   )
-  _src="${_evmfs_archive_src}"
-  _sum="${_archive_sum}"
+  _src="${_evmfs_src}"
   source+=(
-    "${_archive_sig_src}"
+    "${_sig_src}"
   )
   sha256sums+=(
-    "${_archive_sig_sum}"
+    "${_sig_sum}"
   )
 elif [[ "${_git}" == true ]]; then
   makedepends+=(
@@ -112,12 +146,12 @@ elif [[ "${_git}" == true ]]; then
   _sum="SKIP"
 elif [[ "${_git}" == false ]]; then
   if [[ "${_tag_name}" == 'pkgver' ]]; then
-    _src="${_tarname}.tar.gz::${_url}/archive/refs/tags/${_tag}.tar.gz"
+    _uri="${_url}/archive/refs/tags/${_tag}.tar.gz"
     _sum="d4f4179c6e4ce1702c5fe6af132669e8ec4d0378428f69518f2926b969663a91"
   elif [[ "${_tag_name}" == "commit" ]]; then
-    _src="${_tarname}.zip::${_url}/archive/${_commit}.zip"
-    _sum="${_archive_sum}"
+    _uri="${_url}/archive/${_commit}.zip"
   fi
+  _src="${_tarfile}::${_uri}"
 fi
 source=(
   "${_src}"
@@ -125,7 +159,6 @@ source=(
 sha256sums=(
   "${_sum}"
 )
-
 validpgpkeys=(
   # Truocolo <truocolo@aol.com>
   '97E989E6CF1D2C7F7A41FF9F95684DBE23D6A3E9'
@@ -144,13 +177,47 @@ check() {
     check
 }
 
-package() {
+package_evm-make() {
+  local \
+    _make_opts=()
+  _make_opts+=(
+    PREFIX="/usr"
+    DESTDIR="${pkgdir}"
+  )
   cd \
     "${_tarname}"
   make \
-    PREFIX="/usr" \
-    DESTDIR="${pkgdir}" \
-    install
+    "${_make_opts[@]}" \
+    install-scripts
+  install \
+    -Dm644 \
+    "COPYING" \
+    -t \
+    "${pkgdir}/usr/share/licenses/${pkgname}/"
+}
+
+package_evm-make-docs() {
+  local \
+    _make_opts=()
+  optdepends=(
+    "${_evm_make_docs_ref_optdepends[*]}"
+  )
+  depends=()
+  _make_opts+=(
+    PREFIX="/usr"
+    DESTDIR="${pkgdir}"
+  )
+  cd \
+    "${_tarname}"
+  make \
+    "${_make_opts[@]}" \
+    install-doc \
+    install-man
+  install \
+    -Dm644 \
+    "COPYING" \
+    -t \
+    "${pkgdir}/usr/share/licenses/${pkgname}/"
 }
 
 # vim: ft=sh syn=sh et
