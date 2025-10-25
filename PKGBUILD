@@ -49,7 +49,7 @@ if [[ ! -v "_git" ]]; then
   _git="false"
 fi
 if [[ ! -v "_git_http" ]]; then
-  _git_http="github"
+  _git_http="gitlab"
 fi
 if [[ ! -v "_docs" ]]; then
   _docs="true"
@@ -120,8 +120,8 @@ _tarfile="${_tarname}.${_archive_format}"
 if [[ "${_offline}" == "true" ]]; then
   _url="file://${HOME}/${pkgname}"
 fi
-_sum="b9d50afd625da675e5a493ddc2a728e415a1a2c109a90c1636817e690cbd8b6b"
-_sig_sum="4acbd44ad7a4faa8c30e8ae678217c71ebaa499a2de4d24c183d7d902774cf0b"
+_sum="4b6ca0cf40c371addbcb69d1d1540320cde0a317147a9ecae8e7b80dc8b61bda"
+_sig_sum="efeaef36540ec33b22bdd6fe7e6869cec1b3b7dd29ede10aa46051f502bd241d"
 # Dvorak
 _evmfs_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
 _evmfs_network="100"
