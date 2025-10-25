@@ -94,6 +94,10 @@ _evm_make_docs_optdepends=(
   "${_pkg}-docs:"
     "EVM Make documentation and manuals."
 )
+_evm_make_docs_ref_optdepends=(
+  "${_pkg}:"
+    "package this documentation package pertains."
+)
 optdepends=(
   "${_evm_make_docs_optdepends[*]}"
 )
