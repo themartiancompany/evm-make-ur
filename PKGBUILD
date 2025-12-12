@@ -71,7 +71,7 @@ if [[ "${_docs}" == "true" ]]; then
 fi
 pkgver="0.0.0.0.0.0.0.0.1.1"
 _commit="b49aed148af4c9c936f76c577811a14b8b9e0a63"
-pkgrel=3
+pkgrel=4
 _pkgdesc=(
   "Make (build and install) tool for applications"
   "using the EVM toolchain."
