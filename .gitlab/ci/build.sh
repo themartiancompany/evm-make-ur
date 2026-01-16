@@ -162,10 +162,11 @@ _requirements() {
   fur \
     "${_fur_opts[@]}" \
     "reallymakepkg"
+  _fur_latest_version="1.0.0.0.0.0.0.0.0.0.0.1-2"
   _gur_mini \
     "${ns}" \
     "fur" \
-    "1.0.0.0.0.0.0.0.0.0.0.0.1-9"
+    "${_fur_latest_version}"
   # ohoh
   recipe-get \
     -v \
