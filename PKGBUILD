@@ -27,10 +27,10 @@
 #     <pellegrinoprevete@gmail.com>
 #     <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
 
-_os="$( \
+_os="$(
   uname \
     -o)"
-_evmfs_available="$( \
+_evmfs_available="$(
   command \
     -v \
     "evmfs" || \
@@ -71,7 +71,7 @@ if [[ "${_docs}" == "true" ]]; then
 fi
 pkgver="0.0.0.0.0.0.0.0.1.1"
 _commit="b49aed148af4c9c936f76c577811a14b8b9e0a63"
-pkgrel=10
+pkgrel=11
 _pkgdesc=(
   "Make (build and install) tool for applications"
   "using the EVM toolchain."
