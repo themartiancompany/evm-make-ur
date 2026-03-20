@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: AGPL-3.0
 
 #    ----------------------------------------------------------------------
-#    Copyright © 2024, 2025  Pellegrino Prevete
+#    Copyright © 2024, 2025, 2026  Pellegrino Prevete
 #
 #    All rights reserved
 #    ----------------------------------------------------------------------
@@ -48,8 +48,11 @@ fi
 if [[ ! -v "_git" ]]; then
   _git="false"
 fi
+if [[ ! -v "_git_service" ]]; then
+  _git_service="gitlab"
+fi
 if [[ ! -v "_git_http" ]]; then
-  _git_http="gitlab"
+  _git_http="${_git_service}"
 fi
 if [[ ! -v "_docs" ]]; then
   _docs="true"
