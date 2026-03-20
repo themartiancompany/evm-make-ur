@@ -74,7 +74,7 @@ if [[ "${_docs}" == "true" ]]; then
 fi
 pkgver="0.0.0.0.0.0.0.0.1.1"
 _commit="b49aed148af4c9c936f76c577811a14b8b9e0a63"
-pkgrel=12
+pkgrel=13
 _pkgdesc=(
   "Make (build and install) tool for applications"
   "using the EVM toolchain."
@@ -123,8 +123,17 @@ _tarfile="${_tarname}.${_archive_format}"
 if [[ "${_offline}" == "true" ]]; then
   _url="file://${HOME}/${pkgname}"
 fi
-_sum="4b6ca0cf40c371addbcb69d1d1540320cde0a317147a9ecae8e7b80dc8b61bda"
-_sig_sum="efeaef36540ec33b22bdd6fe7e6869cec1b3b7dd29ede10aa46051f502bd241d"
+_github_sum="df7d589505bf94b1d1dc913b7c2c1fbf9f279a630fd33a70120873d210a17ae8"
+_github_sig_sum="477ffb62b37ad243bb4237ec17534f70bf2705aa0d135ff902f674fecb1fe010"
+_gitlab_sum="4b6ca0cf40c371addbcb69d1d1540320cde0a317147a9ecae8e7b80dc8b61bda"
+_gitlab_sig_sum="efeaef36540ec33b22bdd6fe7e6869cec1b3b7dd29ede10aa46051f502bd241d"
+if [[ "${_git_service}" == "github" ]]; then
+  _sum="${_github_sum}"
+  _sig_sum="${_github_sig_sum}"
+elif [[ "${_git_service}" == "gitlab" ]]; then
+  _sum="${_gitlab_sum}"
+  _sig_sum="${_gitlab_sig_sum}"
+fi
 # Dvorak
 _evmfs_ns="0x87003Bd6C074C713783df04f36517451fF34CBEf"
 _evmfs_network="100"
